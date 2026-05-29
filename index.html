@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Synca Digitals — Social Media Agency | Addis Ababa</title>
+  <meta name="description" content="Synca Digitals is a premium social media agency in Addis Ababa, Ethiopia. We create videos, graphics, and manage your brand online."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #000000;
+      --black2: #0D0D0D;
+      --black3: #141414;
+      --black4: #1A1A1A;
+      --gold: #FFB400;
+      --gold2: #E6A200;
+      --gold-dim: rgba(255,180,0,0.12);
+      --gold-border: rgba(255,180,0,0.2);
+      --white: #FFFFFF;
+      --muted: rgba(255,255,255,0.45);
+      --border: rgba(255,255,255,0.07);
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--black);
+      color: var(--white);
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* CURSOR */
+    .cursor { width: 10px; height: 10px; background: var(--gold); border-radius: 50%; position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9999; transition: width .2s, height .2s; transform: translate(-50%,-50%); }
+    .cursor-ring { width: 36px; height: 36px; border: 1.5px solid rgba(255,180,0,0.45); border-radius: 50%; position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9998; transition: transform .35s ease, width .2s, height .2s, border-color .2s; transform: translate(-50%,-50%); }
+
+    /* NAV */
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1.25rem 4rem; display: flex; align-items: center; justify-content: space-between; transition: background .4s, padding .3s; }
+    nav.scrolled { background: rgba(0,0,0,0.94); backdrop-filter: blur(20px); padding: 0.9rem 4rem; border-bottom: 1px solid var(--border); }
+    .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .nav-logo-text { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800; color: var(--white); letter-spacing: -0.02em; }
+    .nav-logo-text span { color: var(--gold); }
+    .nav-links { display: flex; align-items: center; gap: 2.5rem; list-style: none; }
+    .nav-links a { color: rgba(255,255,255,0.6); text-decoration: none; font-size: 14px; font-weight: 400; transition: color .2s; }
+    .nav-links a:hover { color: var(--white); }
+    .nav-cta { background: var(--gold) !important; color: var(--black) !important; padding: .5rem 1.25rem; border-radius: 6px; font-weight: 600 !important; transition: background .2s !important; }
+    .nav-cta:hover { background: var(--gold2) !important; }
+    .nav-mobile-toggle { display: none; background: none; border: none; cursor: none; color: white; font-size: 1.3rem; }
+
+    /* HERO */
+    .hero { min-height: 100vh; padding: 0 4rem; display: flex; align-items: center; position: relative; overflow: hidden; }
+    .hero-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 60% 60% at 80% 50%, rgba(255,180,0,0.08) 0%, transparent 70%), radial-gradient(ellipse 40% 40% at 10% 80%, rgba(255,180,0,0.04) 0%, transparent 60%); }
+    .hero-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,180,0,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,180,0,0.04) 1px, transparent 1px); background-size: 60px 60px; mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 80%); }
+    .hero-content { position: relative; z-index: 2; max-width: 720px; }
+    .hero-eyebrow { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.5rem; opacity: 0; animation: fadeUp .8s .2s forwards; }
+    .hero-eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--gold); }
+    .hero-title { font-family: 'Syne', sans-serif; font-size: clamp(3rem,6vw,5.5rem); font-weight: 800; line-height: 1.0; letter-spacing: -.03em; margin-bottom: 1.5rem; opacity: 0; animation: fadeUp .8s .4s forwards; }
+    .hero-title .accent { color: var(--gold); }
+    .hero-sub { font-size: 1.05rem; color: rgba(255,255,255,0.5); line-height: 1.75; max-width: 500px; margin-bottom: 1rem; font-weight: 300; opacity: 0; animation: fadeUp .8s .55s forwards; }
+    .hero-amharic { font-size: 1.05rem; color: rgba(255,180,0,0.75); line-height: 1.7; max-width: 500px; margin-bottom: 2.5rem; font-weight: 300; opacity: 0; animation: fadeUp .8s .65s forwards; }
+    .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; opacity: 0; animation: fadeUp .8s .8s forwards; }
+    .btn-primary { background: var(--gold); color: var(--black); padding: .85rem 2rem; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 15px; transition: background .2s, transform .2s; display: inline-flex; align-items: center; gap: 8px; }
+    .btn-primary:hover { background: var(--gold2); transform: translateY(-2px); }
+    .btn-outline { background: transparent; color: rgba(255,255,255,0.7); padding: .85rem 2rem; border-radius: 8px; text-decoration: none; font-weight: 400; font-size: 15px; border: 1px solid rgba(255,255,255,0.15); transition: border-color .2s, color .2s, transform .2s; }
+    .btn-outline:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-2px); }
+    .hero-phones { position: absolute; right: 4rem; bottom: 8rem; display: flex; flex-direction: column; gap: .75rem; opacity: 0; animation: fadeUp .8s 1s forwards; }
+    .hero-phone { display: flex; align-items: center; gap: 10px; font-size: 14px; color: rgba(255,255,255,0.5); }
+    .hero-phone span { color: var(--gold); font-weight: 500; font-size: 16px; }
+    .hero-scroll { position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 6px; opacity: 0; animation: fadeUp .8s 1.2s forwards; }
+    .scroll-line { width: 1px; height: 40px; background: linear-gradient(to bottom, rgba(255,180,0,0.5), transparent); animation: scrollAnim 1.5s ease-in-out infinite; }
+    .scroll-text { font-size: 10px; letter-spacing: .1em; color: rgba(255,255,255,0.25); text-transform: uppercase; }
+
+    /* OVERLAY TEXT BANNER */
+    .overlay-banner { background: var(--gold); padding: 1.5rem 4rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+    .overlay-text-amharic { font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 700; color: var(--black); }
+    .overlay-text-en { font-size: 14px; color: rgba(0,0,0,0.7); margin-top: 2px; }
+    .overlay-phones { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .overlay-phone { display: flex; align-items: center; gap: 6px; background: rgba(0,0,0,0.12); color: var(--black); font-weight: 700; font-size: 15px; padding: .5rem 1.1rem; border-radius: 6px; text-decoration: none; transition: background .2s; }
+    .overlay-phone:hover { background: rgba(0,0,0,0.22); }
+    .overlay-badge { background: var(--black); color: var(--gold); font-size: 12px; font-weight: 700; padding: .4rem 1rem; border-radius: 99px; white-space: nowrap; }
+
+    /* SECTIONS */
+    section { padding: 6rem 4rem; }
+    .section-label { font-size: 11px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; display: flex; align-items: center; gap: 10px; }
+    .section-label::before { content: ''; width: 20px; height: 1px; background: var(--gold); }
+    .section-title { font-family: 'Syne', sans-serif; font-size: clamp(2rem,4vw,3rem); font-weight: 700; letter-spacing: -.02em; line-height: 1.15; margin-bottom: 1rem; }
+    .section-sub { font-size: 1rem; color: var(--muted); max-width: 520px; line-height: 1.7; font-weight: 300; }
+
+    /* HOW */
+    .how { background: var(--black2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .how-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px,1fr)); gap: 0; margin-top: 4rem; }
+    .how-step { padding: 2rem 2rem 2rem 0; border-right: 1px solid var(--border); }
+    .how-step:last-child { border-right: none; padding-right: 0; }
+    .how-step:not(:first-child) { padding-left: 2rem; }
+    .step-num { font-family: 'Syne', sans-serif; font-size: 3.5rem; font-weight: 800; color: rgba(255,180,0,0.06); line-height: 1; margin-bottom: 1rem; }
+    .step-icon { width: 40px; height: 40px; background: var(--gold-dim); border: 1px solid var(--gold-border); border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; font-size: 18px; }
+    .step-title { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 600; margin-bottom: .5rem; }
+    .step-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+    /* SERVICES */
+    .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px,1fr)); gap: 1px; margin-top: 4rem; background: var(--border); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; }
+    .service-card { background: var(--black); padding: 2rem; transition: background .3s; position: relative; overflow: hidden; }
+    .service-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--gold); opacity: 0; transition: opacity .3s; }
+    .service-card:hover { background: var(--gold-dim); }
+    .service-card:hover::before { opacity: 1; }
+    .service-icon { width: 48px; height: 48px; background: var(--gold-dim); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 22px; margin-bottom: 1.25rem; border: 1px solid var(--gold-border); }
+    .service-title { font-family: 'Syne', sans-serif; font-size: 17px; font-weight: 600; margin-bottom: .6rem; }
+    .service-desc { font-size: 13px; color: var(--muted); line-height: 1.65; margin-bottom: 1rem; }
+    .service-tag { font-size: 11px; color: var(--gold); opacity: .7; }
+
+    /* PRICING */
+    .pricing { background: var(--black2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); gap: 16px; margin-top: 4rem; }
+    .pricing-card { background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 16px; padding: 2rem; display: flex; flex-direction: column; transition: border-color .3s, transform .3s; position: relative; overflow: hidden; }
+    .pricing-card:hover { border-color: var(--gold-border); transform: translateY(-4px); }
+    .pricing-card.featured { border-color: var(--gold); background: var(--gold-dim); }
+    .pricing-card.featured::before { content: 'Most Popular'; position: absolute; top: 0; right: 1.5rem; background: var(--gold); color: var(--black); font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 0 0 8px 8px; letter-spacing: .05em; }
+    .trial-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(255,180,0,0.1); border: 1px solid rgba(255,180,0,0.25); color: var(--gold); font-size: 12px; font-weight: 500; padding: 4px 10px; border-radius: 99px; margin-bottom: 1.25rem; align-self: flex-start; }
+    .plan-name { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 700; margin-bottom: .3rem; }
+    .plan-tagline { font-size: 13px; color: var(--muted); margin-bottom: 1.5rem; line-height: 1.5; }
+    .plan-price { font-family: 'Syne', sans-serif; font-size: 2.4rem; font-weight: 800; letter-spacing: -.03em; line-height: 1; margin-bottom: .3rem; color: var(--gold); }
+    .plan-period { font-size: 13px; color: var(--muted); margin-bottom: 1.5rem; }
+    .plan-divider { border: none; border-top: 1px solid var(--border); margin: 1.25rem 0; }
+    .plan-feature { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; color: rgba(255,255,255,0.6); margin-bottom: .75rem; line-height: 1.4; }
+    .plan-feature .check { color: var(--gold); font-size: 14px; flex-shrink: 0; margin-top: 1px; }
+    .plan-feature .cross { color: rgba(255,255,255,0.18); font-size: 14px; flex-shrink: 0; margin-top: 1px; }
+    .plan-feature strong { color: rgba(255,255,255,0.9); font-weight: 500; }
+    .plan-cta { margin-top: auto; padding: .85rem; border-radius: 8px; text-decoration: none; font-size: 14px; font-weight: 600; text-align: center; transition: all .2s; display: block; }
+    .plan-cta.outline { border: 1px solid rgba(255,180,0,0.3); color: var(--gold); margin-top: auto; }
+    .plan-cta.outline:hover { background: var(--gold-dim); border-color: var(--gold); }
+    .plan-cta.filled { background: var(--gold); color: var(--black); margin-top: auto; }
+    .plan-cta.filled:hover { background: var(--gold2); }
+
+    /* PORTFOLIO */
+    .portfolio-placeholder { display: grid; grid-template-columns: repeat(3,1fr); grid-template-rows: auto auto; gap: 12px; }
+    .port-item { background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 12px; aspect-ratio: 9/16; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; transition: background .3s, border-color .3s, transform .3s; position: relative; overflow: hidden; }
+    .port-item:hover { background: var(--gold-dim); border-color: var(--gold-border); transform: translateY(-4px); }
+    .port-item:first-child { grid-row: span 2; aspect-ratio: auto; min-height: 400px; }
+    .port-icon { font-size: 2rem; opacity: .25; }
+    .port-label { font-size: 12px; color: rgba(255,255,255,0.2); text-align: center; }
+    .coming-badge { position: absolute; top: 12px; left: 12px; background: var(--gold-dim); border: 1px solid var(--gold-border); color: var(--gold); font-size: 10px; font-weight: 500; padding: 3px 8px; border-radius: 99px; letter-spacing: .05em; }
+
+    /* CONTACT */
+    .contact { background: var(--black2); border-top: 1px solid var(--border); }
+    .contact-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: start; }
+    .contact-info { display: flex; flex-direction: column; gap: 1rem; margin-top: 2.5rem; }
+    .contact-item { display: flex; align-items: flex-start; gap: 1rem; padding: 1.25rem; background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 12px; transition: border-color .2s; }
+    .contact-item:hover { border-color: var(--gold-border); }
+    .contact-icon { width: 40px; height: 40px; flex-shrink: 0; background: var(--gold-dim); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 18px; border: 1px solid var(--gold-border); }
+    .contact-item-label { font-size: 11px; color: rgba(255,255,255,0.3); margin-bottom: 4px; text-transform: uppercase; letter-spacing: .08em; }
+    .contact-item-value { font-size: 15px; color: var(--white); font-weight: 400; }
+    .contact-form { display: flex; flex-direction: column; gap: 1rem; margin-top: 2.5rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    .form-label { font-size: 12px; color: rgba(255,255,255,0.4); }
+    .form-input, .form-select, .form-textarea { background: rgba(255,255,255,0.04); border: 1px solid var(--border); border-radius: 8px; padding: .75rem 1rem; color: var(--white); font-family: 'DM Sans', sans-serif; font-size: 14px; transition: border-color .2s, background .2s; outline: none; -webkit-appearance: none; }
+    .form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--gold); background: rgba(255,180,0,0.04); }
+    .form-input::placeholder, .form-textarea::placeholder { color: rgba(255,255,255,0.18); }
+    .form-select option { background: var(--black2); color: var(--white); }
+    .form-textarea { resize: vertical; min-height: 120px; }
+    .form-submit { background: var(--gold); color: var(--black); border: none; padding: .9rem 2rem; border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 700; cursor: none; transition: background .2s, transform .2s; align-self: flex-start; }
+    .form-submit:hover { background: var(--gold2); transform: translateY(-2px); }
+
+    /* FOOTER */
+    footer { padding: 3rem 4rem; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; background: var(--black); }
+    .footer-logo { font-family: 'Syne', sans-serif; font-size: 17px; font-weight: 800; }
+    .footer-logo span { color: var(--gold); }
+    .footer-copy { font-size: 13px; color: rgba(255,255,255,0.25); }
+    .footer-links { display: flex; gap: 1.5rem; }
+    .footer-links a { font-size: 13px; color: rgba(255,255,255,0.3); text-decoration: none; transition: color .2s; }
+    .footer-links a:hover { color: var(--gold); }
+
+    /* MOBILE NAV */
+    .mobile-nav { display: none; position: fixed; inset: 0; background: var(--black); z-index: 99; flex-direction: column; align-items: center; justify-content: center; gap: 2rem; }
+    .mobile-nav.open { display: flex; }
+    .mobile-nav a { font-family: 'Syne', sans-serif; font-size: 2rem; font-weight: 700; color: white; text-decoration: none; opacity: .6; transition: opacity .2s, color .2s; }
+    .mobile-nav a:hover { opacity: 1; color: var(--gold); }
+    .mobile-close { position: absolute; top: 1.5rem; right: 1.5rem; background: none; border: none; color: white; font-size: 1.5rem; cursor: none; }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes scrollAnim { 0%,100% { opacity:.4; } 50% { opacity:1; } }
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity .7s ease, transform .7s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      nav { padding: 1rem 1.5rem; }
+      nav.scrolled { padding: .9rem 1.5rem; }
+      .nav-links { display: none; }
+      .nav-mobile-toggle { display: block; }
+      .hero { padding: 8rem 1.5rem 4rem; }
+      .hero-phones { display: none; }
+      section { padding: 4rem 1.5rem; }
+      .overlay-banner { padding: 1.25rem 1.5rem; }
+      .contact-inner { grid-template-columns: 1fr; gap: 2rem; }
+      .form-row { grid-template-columns: 1fr; }
+      footer { padding: 2rem 1.5rem; flex-direction: column; align-items: flex-start; }
+      .portfolio-placeholder { grid-template-columns: repeat(2,1fr); }
+      .port-item:first-child { grid-column: span 2; }
+      .how-grid { grid-template-columns: 1fr 1fr; }
+      .how-step { border-right: none; border-bottom: 1px solid var(--border); padding: 1.5rem 0; }
+      .how-step:last-child { border-bottom: none; }
+      .how-step:not(:first-child) { padding-left: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- NAV -->
+  <nav id="nav">
+    <a href="#" class="nav-logo">
+      <span class="nav-logo-text"><span>SYNCA</span> DIGITALS</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#portfolio">Portfolio</a></li>
+      <li><a href="#contact" class="nav-cta">Get Started</a></li>
+    </ul>
+    <button class="nav-mobile-toggle" id="mobileToggle" aria-label="Open menu">☰</button>
+  </nav>
+
+  <!-- MOBILE NAV -->
+  <div class="mobile-nav" id="mobileNav">
+    <button class="mobile-close" id="mobileClose">✕</button>
+    <a href="#services" onclick="closeMobileNav()">Services</a>
+    <a href="#pricing" onclick="closeMobileNav()">Pricing</a>
+    <a href="#portfolio" onclick="closeMobileNav()">Portfolio</a>
+    <a href="#contact" onclick="closeMobileNav()">Contact</a>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="hero-bg"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-content">
+      <div class="hero-eyebrow">Addis Ababa, Ethiopia</div>
+      <h1 class="hero-title">
+        Sync your brand<br>with the <span class="accent">world.</span>
+      </h1>
+      <p class="hero-amharic">የቢዝነስዎን ብራንድ ማሳደግ ይፈልጋሉ?</p>
+      <p class="hero-sub">We manage your social media professionally — videos, graphics, strategy & growth. Free trial available, no commitment required.</p>
+      <div class="hero-actions">
+        <a href="#pricing" class="btn-primary">View packages →</a>
+        <a href="#contact" class="btn-outline">Get a free trial</a>
+      </div>
+    </div>
+    <div class="hero-phones">
+      <div class="hero-phone">📞 <span>0907 308 672</span></div>
+      <div class="hero-phone">📞 <span>0955 967 928</span></div>
+    </div>
+    <div class="hero-scroll">
+      <div class="scroll-line"></div>
+      <span class="scroll-text">Scroll</span>
+    </div>
+  </section>
+
+  <!-- OVERLAY BANNER -->
+  <div class="overlay-banner">
+    <div>
+      <div class="overlay-text-amharic">የቢዝነስዎን ብራንድ ማሳደግ ይፈልጋሉ?</div>
+      <div class="overlay-text-en">We manage your social media professionally. Contact Synca Digitals — Free trial available!</div>
+    </div>
+    <div class="overlay-phones">
+      <a href="tel:0907308672" class="overlay-phone">📞 0907 308 672</a>
+      <a href="tel:0955967928" class="overlay-phone">📞 0955 967 928</a>
+      <div class="overlay-badge">🎁 Free Trial</div>
+    </div>
+  </div>
+
+  <!-- HOW WE WORK -->
+  <section class="how" id="how">
+    <div class="section-label reveal">How we work</div>
+    <h2 class="section-title reveal">From discovery to going live<br>in 5 simple steps</h2>
+    <div class="how-grid">
+      <div class="how-step reveal">
+        <div class="step-num">01</div>
+        <div class="step-icon">📞</div>
+        <div class="step-title">Discovery Call</div>
+        <div class="step-desc">We learn your brand, goals, target audience, and tone of voice.</div>
+      </div>
+      <div class="how-step reveal">
+        <div class="step-num">02</div>
+        <div class="step-icon">🎬</div>
+        <div class="step-title">Free Trial Content</div>
+        <div class="step-desc">We produce your free trial videos — no payment, no commitment required.</div>
+      </div>
+      <div class="how-step reveal">
+        <div class="step-num">03</div>
+        <div class="step-icon">✍️</div>
+        <div class="step-title">Agreement & Payment</div>
+        <div class="step-desc">50% after week one. Remaining 50% by end of month.</div>
+      </div>
+      <div class="how-step reveal">
+        <div class="step-num">04</div>
+        <div class="step-icon">📅</div>
+        <div class="step-title">Content Calendar</div>
+        <div class="step-desc">Your monthly content plan is shared for your review and sign-off.</div>
+      </div>
+      <div class="how-step reveal">
+        <div class="step-num">05</div>
+        <div class="step-icon">🚀</div>
+        <div class="step-title">Go Live</div>
+        <div class="step-desc">We publish, manage, and report — you focus on running your business.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services">
+    <div class="section-label reveal">What we do</div>
+    <h2 class="section-title reveal">All-in-one social media<br>management</h2>
+    <p class="section-sub reveal">Every service your brand needs to dominate social media — under one roof.</p>
+    <div class="services-grid reveal">
+      <div class="service-card">
+        <div class="service-icon">🎬</div>
+        <div class="service-title">Video Production</div>
+        <div class="service-desc">Professional short-form videos for TikTok, Instagram Reels and Facebook. Script, shoot, edit — all done for you.</div>
+        <div class="service-tag">TikTok · Reels · Facebook</div>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">🎨</div>
+        <div class="service-title">Graphic Design</div>
+        <div class="service-desc">Premium visual content that stops the scroll. Branded posts, stories, covers and promotional graphics.</div>
+        <div class="service-tag">Posts · Stories · Covers</div>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">📱</div>
+        <div class="service-title">Social Media Management</div>
+        <div class="service-desc">Full page management — posting, scheduling, comment replies, DMs and community engagement handled daily.</div>
+        <div class="service-tag">Daily Management · Engagement</div>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">✍️</div>
+        <div class="service-title">Content Strategy</div>
+        <div class="service-desc">Data-driven content calendars and brand strategy built around your audience and business goals.</div>
+        <div class="service-tag">Strategy · Planning · Calendar</div>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">📊</div>
+        <div class="service-title">Analytics & Reporting</div>
+        <div class="service-desc">Clear weekly and monthly performance reports — views, reach, engagement rate and follower growth.</div>
+        <div class="service-tag">Reports · Insights · Growth</div>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">📸</div>
+        <div class="service-title">Photography</div>
+        <div class="service-desc">Professional product and venue photography sessions to elevate your brand's visual identity on all platforms.</div>
+        <div class="service-tag">Product · Venue · Brand</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section class="pricing" id="pricing">
+    <div class="section-label reveal">Packages</div>
+    <h2 class="section-title reveal">Transparent pricing,<br>real results</h2>
+    <p class="section-sub reveal">All packages begin with a free trial — see results before you commit.</p>
+    <div class="pricing-grid">
+      <div class="pricing-card reveal">
+        <div class="trial-badge">🎁 1 free trial video</div>
+        <div class="plan-name">Basic</div>
+        <div class="plan-tagline">For small businesses entering social media for the first time</div>
+        <div class="plan-price">ETB 15,000</div>
+        <div class="plan-period">per month</div>
+        <hr class="plan-divider">
+        <div class="plan-feature"><span class="check">✓</span><span><strong>3 TikTok videos</strong> per week</span></div>
+        <div class="plan-feature"><span class="check">✓</span><span>TikTok platform</span></div>
+        <div class="plan-feature"><span class="check">✓</span><span>Script writing & editing</span></div>
+        <div class="plan-feature"><span class="check">✓</span><span>2 revisions per video</span></div>
+        <div class="plan-feature"><span class="check">✓</span><span><strong>2 premium graphics</strong> per week</span></div>
+        <div class="plan-feature"><span class="check">✓</span><span>Content calendar</span></div>
+        <div class="plan-feature"><span class="check">✓</span><span>Monthly performance report</span></div>
+        <div class="plan-feature"><span class="check">✓</span><span>Dedicated account manager</span></div>
+        <div class="plan-feature"><span class="cross">✗</span><span>Instagram management</span></div>
+        <div class="plan-feature"><span class="cross">✗</span><span>Paid ads</span></div>
+        <a href="#contact" class="plan-cta outline">Get started →</a>
+      </div>
+      <div class="pricing-card featured reveal">
+        <div class="trial-badge">🎁 2 free trial videos</div>
+        <div class="plan-name">Growth</div>
+        <div class="plan-tagline">Full multi-platform presence with video & premium graphics</div>
+        <div class="plan-price">ETB 25,000</div>
+        <div class="plan-period">per month</div>
+        <hr class="plan-divider">
+        <div class="plan-feature"><span class="check">✓</span><span><strong>4 videos</strong> per week</span></div>
+        <div class="plan-feature"><span class="check">✓</span><span>TikTok + Instagram</span></div>
+        <div class="plan-feature"><span class="check">✓</span><span>Script writing & editing</span></div>
+        <div class="plan-feature"><span class="check">✓</span><span>3 revisions per video</span></div>
+        <div class="plan-feature"><span class="check">✓</span><span><strong>3 premium graphics</strong> per week</span></div>
+        <div class="plan-feature"><span class="check">✓</span><span>Content calendar</span></div>
+        <div class="plan-feature"><span class="check">✓</span><span>Weekly performance report</span></div>
+        <div class="plan-feature"><span class="check">✓</span><span>Dedicated account manager</span></div>
+        <div class="plan-feature"><span class="check">✓</span><span>Competitor tracking</span></div>
+        <div class="plan-feature"><span class="check">✓</span><span>Comment & DM management</span></div>
+        <a href="#contact" class="plan-cta filled">Get started →</a>
+      </div>
+      <div class="pricing-card reveal">
+        <div class="trial-badge">🎁 3 free trial videos</div>
+        <div class="plan-name">Elite</div>
+        <div class="plan-tagline">Complete done-for-you social media & growth engine</div>
+        <div class="plan-price">ETB 45,000</div>
+        <div class="plan-period">per month</div>
+        <hr class="plan-divider">
+        <div class="plan-feature"><span class="check">✓</span><span><strong>5 videos</strong> per week</span></div>
+        <div class="plan-feature"><span class="check">✓</span><span>TikTok + Instagram + Facebook</span></div>
+        <div class="plan-feature"><span class="check">✓</span><span>Script writing & editing</span></div>
+        <div class="plan-feature"><span class="check">✓</span><span>Unlimited revisions</span></div>
+        <div class="plan-feature"><span class="check">✓</span><span><strong>4 premium graphics</strong> per week</span></div>
+        <div class="plan-feature"><span class="check">✓</span><span>Content calendar</span></div>
+        <div class="plan-feature"><span class="check">✓</span><span>Weekly performance report</span></div>
+        <div class="plan-feature"><span class="check">✓</span><span>Dedicated account manager</span></div>
+        <div class="plan-feature"><span class="check">✓</span><span>Competitor tracking</span></div>
+        <div class="plan-feature"><span class="check">✓</span><span>Full comment & DM management</span></div>
+        <div class="plan-feature"><span class="check">✓</span><span>Monthly strategy call</span></div>
+        <div class="plan-feature"><span class="check">✓</span><span><strong>Live analytics dashboard</strong></span></div>
+        <a href="#contact" class="plan-cta outline">Get started →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- PORTFOLIO -->
+  <section id="portfolio">
+    <div class="section-label reveal">Our work</div>
+    <h2 class="section-title reveal">Portfolio</h2>
+    <p class="section-sub reveal">Our latest content — videos, graphics & campaigns for Ethiopian brands.</p>
+    <div class="portfolio-placeholder reveal" style="margin-top:3rem;">
+      <div class="port-item">
+        <div class="coming-badge">Coming soon</div>
+        <div class="port-icon">🎬</div>
+        <div class="port-label">Featured video</div>
+      </div>
+      <div class="port-item">
+        <div class="coming-badge">Coming soon</div>
+        <div class="port-icon">📸</div>
+        <div class="port-label">Brand content</div>
+      </div>
+      <div class="port-item">
+        <div class="coming-badge">Coming soon</div>
+        <div class="port-icon">🎨</div>
+        <div class="port-label">Graphic design</div>
+      </div>
+      <div class="port-item">
+        <div class="coming-badge">Coming soon</div>
+        <div class="port-icon">📱</div>
+        <div class="port-label">Social campaign</div>
+      </div>
+      <div class="port-item">
+        <div class="coming-badge">Coming soon</div>
+        <div class="port-icon">🎬</div>
+        <div class="port-label">Reel / TikTok</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact" id="contact">
+    <div class="contact-inner">
+      <div>
+        <div class="section-label reveal">Get in touch</div>
+        <h2 class="section-title reveal">Ready to grow<br>your brand?</h2>
+        <p class="hero-amharic reveal" style="opacity:1;animation:none;margin-bottom:.5rem;">የቢዝነስዎን ብራንድ ማሳደግ ይፈልጋሉ?</p>
+        <p class="section-sub reveal">Start with a free trial — no payment, no commitment. Let's build something great together.</p>
+        <div class="contact-info reveal">
+          <div class="contact-item">
+            <div class="contact-icon">📍</div>
+            <div>
+              <div class="contact-item-label">Address</div>
+              <div class="contact-item-value">Addis Ababa, Ethiopia</div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">📞</div>
+            <div>
+              <div class="contact-item-label">Phone</div>
+              <div class="contact-item-value">0907 308 672</div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">📞</div>
+            <div>
+              <div class="contact-item-label">Phone</div>
+              <div class="contact-item-value">0955 967 928</div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">💬</div>
+            <div>
+              <div class="contact-item-label">Social</div>
+              <div class="contact-item-value">@syncadigitals</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="contact-form reveal">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Your name</label>
+              <input class="form-input" type="text" placeholder="Abebe Kebede"/>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Phone number</label>
+              <input class="form-input" type="tel" placeholder="09XX XXX XXX"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Business name</label>
+            <input class="form-input" type="text" placeholder="Your business name"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Interested package</label>
+            <select class="form-select">
+              <option value="" disabled selected>Choose a package</option>
+              <option>Basic — ETB 15,000/month</option>
+              <option>Growth — ETB 25,000/month</option>
+              <option>Elite — ETB 45,000/month</option>
+              <option>Just want a free trial</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Message (optional)</label>
+            <textarea class="form-textarea" placeholder="Tell us about your business and goals..."></textarea>
+          </div>
+          <button class="form-submit">Send message →</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo"><span>SYNCA</span> DIGITALS</div>
+    <div class="footer-copy">© 2025 Synca Digitals · Addis Ababa, Ethiopia</div>
+    <div class="footer-links">
+      <a href="#services">Services</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </footer>
+
+  <script>
+    const cursor = document.getElementById('cursor');
+    const ring = document.getElementById('cursorRing');
+    let mx=0,my=0,rx=0,ry=0;
+    document.addEventListener('mousemove',e=>{ mx=e.clientX; my=e.clientY; cursor.style.transform=`translate(${mx}px,${my}px) translate(-50%,-50%)`; });
+    function animRing(){ rx+=(mx-rx)*.12; ry+=(my-ry)*.12; ring.style.transform=`translate(${rx}px,${ry}px) translate(-50%,-50%)`; requestAnimationFrame(animRing); }
+    animRing();
+    document.querySelectorAll('a,button,.service-card,.pricing-card,.port-item').forEach(el=>{
+      el.addEventListener('mouseenter',()=>{ ring.style.width='56px'; ring.style.height='56px'; ring.style.borderColor='rgba(255,180,0,0.8)'; });
+      el.addEventListener('mouseleave',()=>{ ring.style.width='36px'; ring.style.height='36px'; ring.style.borderColor='rgba(255,180,0,0.45)'; });
+    });
+    window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('scrolled',window.scrollY>50));
+    document.getElementById('mobileToggle').addEventListener('click',()=>document.getElementById('mobileNav').classList.add('open'));
+    document.getElementById('mobileClose').addEventListener('click',()=>document.getElementById('mobileNav').classList.remove('open'));
+    function closeMobileNav(){ document.getElementById('mobileNav').classList.remove('open'); }
+    const obs=new IntersectionObserver(entries=>{
+      entries.forEach((e,i)=>{ if(e.isIntersecting){ setTimeout(()=>e.target.classList.add('visible'),i*80); obs.unobserve(e.target); }});
+    },{threshold:.1});
+    document.querySelectorAll('.reveal').forEach(r=>obs.observe(r));
+    document.querySelector('.form-submit').addEventListener('click',()=>alert('Message sent! We will contact you shortly. 🚀'));
+  </script>
+</body>
+</html>
